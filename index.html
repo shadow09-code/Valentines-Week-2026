@@ -56,6 +56,55 @@
       10% { opacity: 1; }
       to { transform: translateY(-10vh); opacity: 0; }
     }
+/* Container for the whole vault */
+.vault-container {
+  padding: 20px;
+  text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.vault-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* The Grid Layout */
+.vault-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  justify-items: center;
+}
+
+/* Individual Image Cards */
+.vault-card {
+  background: white;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.vault-card:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.vault-grid img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.vault-grid img:hover {
+  transform: scale(1.05);
+}
 
     /* ================= LOGIN SCREEN ================= */
     .login-screen {
@@ -1497,7 +1546,7 @@ Forever bound to you,
       }
     }
 
-    /* ================= VAULT ================= */
+     /* ================= VAULT ================= */
 
     vaultBtn.addEventListener("click", () => {
       showVaultModal();
@@ -1535,24 +1584,33 @@ Forever bound to you,
 
     function showVaultContent() {
       modalBody.innerHTML = `
-        <div class="hidden-card">
+        <div class="vault-container">
           <div class="hidden-header">💖 The Vault 💖</div>
-          <div class="hidden-text">
-            <p>This vault holds memories, moments, and promises — untouched by time.</p>
-            <div class="gallery">
-             <div class="gallery">
-  <img class="gallery-item" src="images/light-secret1.png" />
-  <img class="gallery-item" src="images/dark-secret1.png" />
-  <img class="gallery-item" src="images/light-secret2.png" />
-  <img class="gallery-item" src="images/dark-secret2.png" />
-  <img class="gallery-item" src="images/light-secret3.png" />
-  <img class="gallery-item" src="images/dark-secret3.png" />
-</div>
-
-            </div>
+          <p class="vault-subtitle">Click a memory to enlarge it</p>
+          
+          <div class="vault-grid">
+            <img src="light-secret1.png" onclick="openLightbox(this.src)">
+            <img src="dark-secret1.png" onclick="openLightbox(this.src)">
+            <img src="light-secret2.png" onclick="openLightbox(this.src)">
+            <img src="dark-secret2.png" onclick="openLightbox(this.src)">
+            <img src="light-secret3.png" onclick="openLightbox(this.src)">
+            <img src="dark-secret3.png" onclick="openLightbox(this.src)">
           </div>
         </div>
+
+        <div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+          <span class="close-lightbox">&times;</span>
+          <img id="lightbox-img" src="" alt="Enlarged view">
+        </div>
       `;
+    }
+
+    // Function to handle the enlargement
+    function openLightbox(src) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = src;
+      lb.style.display = 'flex';
     }
 
     /* ================= HIDDEN CARD ================= */
